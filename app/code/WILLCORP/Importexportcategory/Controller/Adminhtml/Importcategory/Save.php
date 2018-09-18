@@ -164,7 +164,7 @@ class Save extends \Magento\Backend\App\Action
                                         if (in_array($newcategory, $exist_categories_name)) {
                                             $_url_key .= '-'.mt_rand(10, 99);
                                         }
-                                        $cateitem->setUrlKey($_url_key);
+                                        $cateitem->setUrlKey(urlencode($_url_key));
                                         $cateitem->setStoreId($storeId);
                                         $cateitem->save();
                                         if ($cateitem->getId()) {
