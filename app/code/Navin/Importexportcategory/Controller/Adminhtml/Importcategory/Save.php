@@ -55,8 +55,8 @@ class Save extends \Magento\Backend\App\Action
         \Magento\Framework\Filesystem\Io\File $fileio,
         \Magento\Backend\App\Action\Context $context
     ) {
-    
-        
+
+
         $this->_backendSession = $context->getSession();
         $this->_fileUploaderFactory = $fileUploaderFactory;
         $this->_filesystem = $fileSystem;
@@ -160,11 +160,15 @@ class Save extends \Magento\Backend\App\Action
                                         }
                                         $cateitem->setAttributeSetId($cateitem->getDefaultAttributeSetId());
                                         $cateitem->setName($newcategory);
-                                        $_url_key = str_replace(' ', '-', strtolower($newcategory));
-                                        if (in_array($newcategory, $exist_categories_name)) {
+                                        if (isset($cat_data['url_key'])) {
+                                          $cateitem->setUrlKey($cat_data['url_key']);
+                                        } else {
+                                          $_url_key = str_replace(' ', '-', strtolower($newcategory));
+                                          if (in_array($newcategory, $exist_categories_name)) {
                                             $_url_key .= '-'.mt_rand(10, 99);
+                                          }
+                                          $cateitem->setUrlKey(urlencode($_url_key));
                                         }
-                                        $cateitem->setUrlKey(urlencode($_url_key));
                                         $cateitem->setStoreId($storeId);
                                         $cateitem->save();
                                         if ($cateitem->getId()) {
